@@ -27,6 +27,7 @@ World = world:new(
   -- Systems.MouseSelection.DrawMouseSelectionSystem,
   -- Systems.MouseSelection.UpdateMouseSelectionSystem,
   Systems.dev.DrawFpsSystem,
+  Systems.hole.HoleSpawnSystem,
   Systems.clear.ClearEventSystem
 )
 
@@ -34,6 +35,12 @@ World = world:new(
 local drawFilter = Tiny.requireAll('isDrawSystem')
 local drawGuiFilter = Tiny.requireAll('isDrawGuiSystem')
 local updateFilter = Tiny.rejectAny('isDrawSystem','isDrawGuiSystem')
+-- Global list of holes
+HOLES = {}
+-- maximum count of hole in level
+HOLE_MAX = 5
+-- hole size
+HOLE_POWER = 12
 
 function love.load()
   love.window.setTitle( 'GAME' )
@@ -50,12 +57,14 @@ function love.load()
   math.randomseed(os.time())
   Mario = Entities.player.Mario(WindowWidth/2,WindowHeight-64)
   World:addEntity(Mario)
-  
+
   World:addEntity(Entities.Platform(0,WindowHeight-32,WindowWidth,32))
   World:addEntity(Entities.Platform(0,0,WindowWidth,32))
   World:addEntity(Entities.Platform(0,0,32,WindowHeight))
   World:addEntity(Entities.Platform(WindowWidth-32,0,32,WindowHeight))
 
+  -- add spawner
+  World:addEntity(Entities.HoleSpawner(0, WindowHeight-64))
   -- Add sumply entity for print FPS system
   World:addEntity({drawFps = true})
 end
