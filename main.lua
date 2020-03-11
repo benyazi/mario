@@ -30,6 +30,7 @@ World = world:new(
   Systems.keyLock.TriggerEnterSystem,
   Systems.keyLock.KeyControlSystem,
   Systems.keyLock.HoleDoneSystem,
+  Systems.pump.PumpDoneSystem,
   Systems.dev.DrawFpsSystem,
   Systems.hole.HoleSpawnSystem,
   Systems.hole.DrawCountSystem,
@@ -83,6 +84,8 @@ function love.load()
 
   WaterManager = Entities.Water()
   World:addEntity(WaterManager)
+  -- add pump
+  World:addEntity(Entities.Pump(WindowWidth-64, WindowHeight-64))
 end
 
 function love.draw()
