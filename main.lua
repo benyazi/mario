@@ -34,6 +34,8 @@ World = world:new(
   Systems.dev.DrawFpsSystem,
   Systems.hole.HoleSpawnSystem,
   Systems.hole.DrawCountSystem,
+  Systems.trip.DrawTripSystem,
+  Systems.trip.UpdateTripSystem,
   Systems.hole.UpdateHoleDoneCountSystem,
   Systems.clear.ClearEventSystem,
   Systems.clear.ClearBtnSystem
@@ -53,6 +55,8 @@ HOLE_MAX = 5
 HOLE_POWER = 12
 -- hole done count, realy?
 HOLE_DONE_COUNT = 0
+-- seconds for trip
+TRIP_TIME = 300
 
 function love.load()
   love.window.setTitle( 'GAME' )
@@ -86,6 +90,7 @@ function love.load()
   World:addEntity(WaterManager)
   -- add pump
   World:addEntity(Entities.Pump(WindowWidth-64, WindowHeight-64))
+  World:addEntity({tripManager = {value = 0}})
 end
 
 function love.draw()
