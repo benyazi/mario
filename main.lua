@@ -37,6 +37,9 @@ World = world:new(
   Systems.trip.DrawTripSystem,
   Systems.trip.UpdateTripSystem,
   Systems.hole.UpdateHoleDoneCountSystem,
+  Systems.draw.DrawTextSystem,
+  Systems.event.GameOverSystem,
+  Systems.event.GameWinSystem,
   Systems.clear.ClearEventSystem,
   Systems.clear.ClearBtnSystem
 )
@@ -56,7 +59,7 @@ HOLE_POWER = 12
 -- hole done count, realy?
 HOLE_DONE_COUNT = 0
 -- seconds for trip
-TRIP_TIME = 300
+TRIP_TIME = 10
 
 function love.load()
   love.window.setTitle( 'GAME' )
