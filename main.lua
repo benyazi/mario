@@ -22,25 +22,34 @@ Systems = require.tree('src.systems')
 World = world:new(
   Bump.newWorld(32),
   Systems.draw.DrawRectSystem,
+  Systems.keyLock.DrawKeySystem,
+  Systems.draw.DrawSpriteSystem,
   Systems.moving.MarioControlSystem,
-  -- Systems.draw.ChangeColorSystem,
-  -- Systems.MouseSelection.DrawMouseSelectionSystem,
-  -- Systems.MouseSelection.UpdateMouseSelectionSystem,
+  Systems.keyLock.TriggerEnterSystem,
+  Systems.keyLock.KeyControlSystem,
+  Systems.keyLock.HoleDoneSystem,
   Systems.dev.DrawFpsSystem,
   Systems.hole.HoleSpawnSystem,
-  Systems.clear.ClearEventSystem
+  Systems.hole.DrawCountSystem,
+  Systems.hole.UpdateHoleDoneCountSystem,
+  Systems.clear.ClearEventSystem,
+  Systems.clear.ClearBtnSystem
 )
 
 --  create system filters
 local drawFilter = Tiny.requireAll('isDrawSystem')
 local drawGuiFilter = Tiny.requireAll('isDrawGuiSystem')
 local updateFilter = Tiny.rejectAny('isDrawSystem','isDrawGuiSystem')
+
+BTN_PRESSED = {}
 -- Global list of holes
 HOLES = {}
 -- maximum count of hole in level
 HOLE_MAX = 5
 -- hole size
 HOLE_POWER = 12
+-- hole done count, realy?
+HOLE_DONE_COUNT = 0
 
 function love.load()
   love.window.setTitle( 'GAME' )
@@ -66,7 +75,9 @@ function love.load()
   -- add spawner
   World:addEntity(Entities.HoleSpawner(0, WindowHeight-64))
   -- Add sumply entity for print FPS system
+  World:addEntity({guiManager = true})
   World:addEntity({drawFps = true})
+  World:addEntity({garbageCollector = true})
 end
 
 function love.draw()
@@ -85,6 +96,7 @@ function love.mousepressed(x, y, button)
 end
 
 function love.keypressed(key, scancode, isrepeat)
+  BTN_PRESSED[key] = true
 end
 
 function love.keyreleased(k, scancode)
