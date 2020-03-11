@@ -47,7 +47,9 @@ function love.load()
   Camera:zoomTo(cam_scale)
 -- set random seed
   math.randomseed(os.time())
-
+  Mario = Entities.player.Mario(WindowWidth/2,WindowHeight-64)
+  World:addEntity(Mario)
+  
   for i=1,5 do
     local block = Entities.Block(
       10 * love.math.random(0, 64),
