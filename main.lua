@@ -22,6 +22,7 @@ Systems = require.tree('src.systems')
 World = world:new(
   Bump.newWorld(32),
   Systems.draw.DrawRectSystem,
+  Systems.moving.MarioControlSystem,
   -- Systems.draw.ChangeColorSystem,
   -- Systems.MouseSelection.DrawMouseSelectionSystem,
   -- Systems.MouseSelection.UpdateMouseSelectionSystem,
@@ -49,16 +50,6 @@ function love.load()
   math.randomseed(os.time())
   Mario = Entities.player.Mario(WindowWidth/2,WindowHeight-64)
   World:addEntity(Mario)
-  
-  for i=1,5 do
-    local block = Entities.Block(
-      10 * love.math.random(0, 64),
-      10 * love.math.random(0, 64),
-      50,45
-    )
-    block.drawRect = Components.DrawRect(0.3,0.8,0.1)
-    World:addEntity(block)
-  end
 
   -- Add sumply entity for print FPS system
   World:addEntity({drawFps = true})
