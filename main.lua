@@ -25,6 +25,8 @@ World = world:new(
   Systems.keyLock.DrawKeySystem,
   Systems.draw.DrawSpriteSystem,
   Systems.moving.MarioControlSystem,
+  Systems.water.UpdateWaterLevelSystem,
+  Systems.water.DrawWaterSystem,
   Systems.keyLock.TriggerEnterSystem,
   Systems.keyLock.KeyControlSystem,
   Systems.keyLock.HoleDoneSystem,
@@ -78,6 +80,9 @@ function love.load()
   World:addEntity({guiManager = true})
   World:addEntity({drawFps = true})
   World:addEntity({garbageCollector = true})
+
+  WaterManager = Entities.Water()
+  World:addEntity(WaterManager)
 end
 
 function love.draw()
